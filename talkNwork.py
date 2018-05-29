@@ -22,8 +22,8 @@ while True:
 			tts.convert_text_n_speak('exiting')
 			break;
 		elif user_query.find('command')>=0 or user_query.find('directory')>=0 or user_query.find('file')>=0 :
-			execute_commands(user_query):
-		else
+			execute_commands.execute_commands(user_query):
+		else:
 			cmd_output = ""
 			try :
 				#executing command

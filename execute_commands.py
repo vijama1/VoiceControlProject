@@ -8,7 +8,7 @@ insplit=[]
 # user_input=input("Enter your command:")
 def execute_commands(user_query):
     #Invalid words which will be removed
-    invalid_words=['a','an','the','is','am','are','this','that','do','please','would','you','of','me','could','show','present','my','what','who','me','my','','tell','hey','all','in','under','then','will','would','for','there','command','to','find','my','run','execute','tell','year']
+    invalid_words=['a','an','the','is','am','are','this','that','do','please','would','you','of','me','could','show','present','my','what','who','me','my','','tell','hey','all','in','under','then','will','would','for','there','command','find','my','run','execute','tell','year']
     connectionObject=pymysql.connect(host='127.0.0.1',user='root',password='2002',database='speech_recognition',charset='utf8mb4'
     ,cursorclass=pymysql.cursors.DictCursor)
 
@@ -26,7 +26,7 @@ def execute_commands(user_query):
 
         #converting list to string
         insplit_str=' '.join(insplit)
-        print(insplit_str)
+        #print(insplit_str)
         #to check whether user has given the command for creating a directory or file
         if(insplit_str.startswith('make') | insplit_str.startswith('create')):
             if('directory' in insplit_str):
@@ -82,6 +82,52 @@ def execute_commands(user_query):
             else:
                 #without year
                 os.system('cal')
+        elif(insplit_str.startswith('copy')):
+            ind_list=[]
+            #print(insplit_str)
+            index_to=insplit_str.index(' to')
+            index_from=insplit_str.index('from')
+            source_path=insplit_str[index_from+5:index_to]
+            destination_path=insplit_str[index_to+3:]
+            #print(source_path)
+            # print(destination_path)
+            source_list=source_path.split()
+            source_command='/'.join(source_list)
+            #print(source_command)
+            destination_list=destination_path.split()
+            destination_command='/'.join(destination_list)
+            #print(destination_command)
+            final_command="sudo cp /"+source_command+" /"+destination_command
+            #print(final_command)
+            proc = subprocess.Popen([final_command], stdout=subprocess.PIPE, shell=True)
+            (out, err) = proc.communicate()
+            print(out.decode())
+
+
+        elif(insplit_str.startswith('move')):
+            ind_list=[]
+            #print(insplit_str)
+            index_to=insplit_str.index(' to')
+            index_from=insplit_str.index('from')
+            source_path=insplit_str[index_from+5:index_to]
+            destination_path=insplit_str[index_to+3:]
+            #print(source_path)
+            # print(destination_path)
+            source_list=source_path.split()
+            source_command='/'.join(source_list)
+            #print(source_command)
+            destination_list=destination_path.split()
+            destination_command='/'.join(destination_list)
+            #print(destination_command)
+            # proc = subprocess.Popen(['whoami'], stdout=subprocess.PIPE, shell=True)
+            # (out, err) = proc.communicate()
+            # user=out.decode()
+            final_command="sudo mv /"+source_command+" /"+destination_command
+            #print(final_command)
+            proc = subprocess.Popen([final_command], stdout=subprocess.PIPE, shell=True)
+            (out, err) = proc.communicate()
+            print(out.decode())
+
         else:
 
             #SQL Query
