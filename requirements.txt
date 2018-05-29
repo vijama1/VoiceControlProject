@@ -1,0 +1,12 @@
+This project is built on Ubuntu 16.04
+Language used is python3
+
+Python libraries required are -
+     LIBRARY				COMMAND
+1.SpeechRegnition	-   pip3 install SpeechRecognition
+2.pyAudio 		 	-   sudo apt-get install python-pyaudio python3-pyaudio
+
+
+Hardware Requirements are -
+1.Microphone
+2.Speakers
