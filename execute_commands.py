@@ -15,146 +15,171 @@ def execute_commands(user_query):
     #conerting input string to list
     user_input_list=user_query.split()
 
-    try:
+    # try:
         #creating a cursor object
-        cursorObject=connectionObject.cursor()
+    cursorObject=connectionObject.cursor()
 
-        #creating list after removing inappropriate words
-        for my_val in user_input_list:
-            if my_val not in invalid_words:
-                insplit.append(my_val)
+    #creating list after removing inappropriate words
+    for my_val in user_input_list:
+        if my_val not in invalid_words:
+            insplit.append(my_val)
 
-        #converting list to string
-        insplit_str=' '.join(insplit)
-        #print(insplit_str)
-        #to check whether user has given the command for creating a directory or file
-        if(insplit_str.startswith('make') | insplit_str.startswith('create')):
-            if('directory' in insplit_str):
-                path=insplit_str.split()
-                #print(path)
-                pathvar=path[2:]
-                str='/'.join(pathvar)
-                command="mkdir /"+str
-                #print(command)
-                proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
-                (out, err) = proc.communicate()
-                print(out.decode())
-
-            elif('file' in insplit_str):
-                path=insplit_str.split()
-                pathvar=path[2:]
-                str='/'.join(pathvar)
-                command ="touch /"+str
-                #print(command)
-                proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
-                (out, err) = proc.communicate()
-                print(out.decode())
-
-        elif(insplit_str.startswith('remove') | insplit_str.startswith('delete')):
-            if('directory' in insplit_str):
-                path=insplit_str.split()
-                pathvar=path[2:]
-                str='/'.join(pathvar)
-                command="rm -rvf /"+str
-                #print(command)
-                proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
-                (out, err) = proc.communicate()
-                print(out.decode())
-
-            elif('file' in insplit_str):
-                path=insplit_str.split()
-                pathvar=path[2:]
-                str='/'.join(pathvar)
-                command="rm -rvf /"+str
-                #print(command)
-                proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
-                (out, err) = proc.communicate()
-                print(out.decode())
-
-        #for calendar command
-        elif(insplit_str.startswith('calendar')):
-
-            #calendar command with year
-            if(len(insplit_str)>=9):
-                year=insplit_str[9:]
-                command="cal "+year
-                os.system(command)
-            else:
-                #without year
-                os.system('cal')
-        elif(insplit_str.startswith('copy')):
-            ind_list=[]
-            #print(insplit_str)
-            index_to=insplit_str.index(' to')
-            index_from=insplit_str.index('from')
-            source_path=insplit_str[index_from+5:index_to]
-            destination_path=insplit_str[index_to+3:]
-            #print(source_path)
-            # print(destination_path)
-            source_list=source_path.split()
-            source_command='/'.join(source_list)
-            #print(source_command)
-            destination_list=destination_path.split()
-            destination_command='/'.join(destination_list)
-            #print(destination_command)
-            final_command="sudo cp /"+source_command+" /"+destination_command
-            #print(final_command)
-            proc = subprocess.Popen([final_command], stdout=subprocess.PIPE, shell=True)
+    #converting list to string
+    insplit_str=' '.join(insplit)
+    print(insplit_str)
+    #print(insplit_str)
+    #to check whether user has given the command for creating a directory or file
+    if(insplit_str.startswith('make') | insplit_str.startswith('create')):
+        if('directory' in insplit_str):
+            path=insplit_str.split()
+            #print(path)
+            pathvar=path[2:]
+            str='/'.join(pathvar)
+            command="mkdir /"+str
+            #print(command)
+            proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
             (out, err) = proc.communicate()
             print(out.decode())
 
-
-        elif(insplit_str.startswith('move')):
-            ind_list=[]
-            #print(insplit_str)
-            index_to=insplit_str.index(' to')
-            index_from=insplit_str.index('from')
-            source_path=insplit_str[index_from+5:index_to]
-            destination_path=insplit_str[index_to+3:]
-            #print(source_path)
-            # print(destination_path)
-            source_list=source_path.split()
-            source_command='/'.join(source_list)
-            #print(source_command)
-            destination_list=destination_path.split()
-            destination_command='/'.join(destination_list)
-            #print(destination_command)
-            # proc = subprocess.Popen(['whoami'], stdout=subprocess.PIPE, shell=True)
-            # (out, err) = proc.communicate()
-            # user=out.decode()
-            final_command="sudo mv /"+source_command+" /"+destination_command
-            #print(final_command)
-            proc = subprocess.Popen([final_command], stdout=subprocess.PIPE, shell=True)
+        elif('file' in insplit_str):
+            path=insplit_str.split()
+            pathvar=path[2:]
+            str='/'.join(pathvar)
+            command ="touch /"+str
+            #print(command)
+            proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
             (out, err) = proc.communicate()
             print(out.decode())
 
+    elif(insplit_str.startswith('remove') | insplit_str.startswith('delete')):
+        if('directory' in insplit_str):
+            path=insplit_str.split()
+            pathvar=path[2:]
+            str='/'.join(pathvar)
+            command="rm -rvf /"+str
+            #print(command)
+            proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
+            (out, err) = proc.communicate()
+            print(out.decode())
+
+        elif('file' in insplit_str):
+            path=insplit_str.split()
+            pathvar=path[2:]
+            str='/'.join(pathvar)
+            command="rm -rvf /"+str
+            #print(command)
+            proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
+            (out, err) = proc.communicate()
+            print(out.decode())
+
+    #for calendar command
+    elif(insplit_str.startswith('calendar')):
+
+        #calendar command with year
+        if(len(insplit_str)>=9):
+            year=insplit_str[9:]
+            command="cal "+year
+            os.system(command)
         else:
+            #without year
+            os.system('cal')
+    elif(insplit_str.startswith('copy')):
+        ind_list=[]
+        #print(insplit_str)
+        index_to=insplit_str.index(' to')
+        index_from=insplit_str.index('from')
+        source_path=insplit_str[index_from+5:index_to]
+        destination_path=insplit_str[index_to+3:]
+        #print(source_path)
+        # print(destination_path)
+        source_list=source_path.split()
+        source_command='/'.join(source_list)
+        #print(source_command)
+        destination_list=destination_path.split()
+        destination_command='/'.join(destination_list)
+        #print(destination_command)
+        final_command="sudo cp /"+source_command+" /"+destination_command
+        #print(final_command)
+        proc = subprocess.Popen([final_command], stdout=subprocess.PIPE, shell=True)
+        (out, err) = proc.communicate()
+        print(out.decode())
 
-            #SQL Query
-            var='"'+insplit_str+'"'
-            sqlQuery="select command from commands where user_input="+var
-            #print(sqlQuery)
 
-            #executing sql query
-            cursorObject.execute(sqlQuery)
+    elif(insplit_str.startswith('move')):
+        ind_list=[]
+        #print(insplit_str)
+        index_to=insplit_str.index(' to')
+        index_from=insplit_str.index('from')
+        source_path=insplit_str[index_from+5:index_to]
+        destination_path=insplit_str[index_to+3:]
+        #print(source_path)
+        # print(destination_path)
+        source_list=source_path.split()
+        source_command='/'.join(source_list)
+        #print(source_command)
+        destination_list=destination_path.split()
+        destination_command='/'.join(destination_list)
+        #print(destination_command)
+        # proc = subprocess.Popen(['whoami'], stdout=subprocess.PIPE, shell=True)
+        # (out, err) = proc.communicate()
+        # user=out.decode()
+        final_command="sudo mv /"+source_command+" /"+destination_command
+        #print(final_command)
+        proc = subprocess.Popen([final_command], stdout=subprocess.PIPE, shell=True)
+        (out, err) = proc.communicate()
+        print(out.decode())
 
-            #fetching data from sql
-            rows=cursorObject.fetchall()
-            dict=rows[0]
-            val=list(dict.values())
-            inp=val[0]
-            #os.system(inp)
-            s=''.join(val)
-            proc = subprocess.Popen([inp], stdout=subprocess.PIPE, shell=True)
-            (out, err) = proc.communicate()
-            print(out.decode())
-            #print(var12)
+    elif(insplit_str.startswith('content')):
+        # index_of=insplit_str.index('of')
+        index_file=insplit_str.index('file')
 
-    except Exception as e:
-        #Exception Caught
-        print("Exception Occured")
+        # index_under=insplit_str.index('under')
+        string_after_file=insplit_str[index_file+5:]
+        index_space=string_after_file.index(" ")
+        #print(string_after_file)
+        file_name=string_after_file[:index_space]
+        path_name=string_after_file[index_space+1:]
+        # print(file_name)
+        # print(path_name)
+        absolute_path=path_name.replace(" ","/")
+        print(absolute_path)
+        command="cat /"+absolute_path+"/"+file_name
+        print(command)
+        os.system(command)
+        # index_space=insplit_str.index()
+        # file_name=insplit_str[index_file+5:index_under-1]
+        # print(file_name)
 
-    finally:
-        #CLosing the connection
-        connectionObject.close()
-        return
+
+
+
+    else:
+
+        #SQL Query
+        var='"'+insplit_str+'"'
+        sqlQuery="select command from commands where user_input="+var
+        #print(sqlQuery)
+
+        #executing sql query
+        cursorObject.execute(sqlQuery)
+
+        #fetching data from sql
+        rows=cursorObject.fetchall()
+        dict=rows[0]
+        val=list(dict.values())
+        inp=val[0]
+        #os.system(inp)
+        s=''.join(val)
+        proc = subprocess.Popen([inp], stdout=subprocess.PIPE, shell=True)
+        (out, err) = proc.communicate()
+        print(out.decode())
+        #print(var12)
+
+# except Exception as e:
+#     #Exception Caught
+#     print("Exception Occured")
+#
+# finally:
+#     #CLosing the connection
+    connectionObject.close()
+    return
